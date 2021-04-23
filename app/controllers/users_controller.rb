@@ -11,18 +11,18 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
-      redirect_to @user, notice: 'User was successfully updated.'
+      redirect_to @user, notice: I18n.t('controllers.users.updated')
     else
       render :edit
     end
   end
 
   private
-    def set_current_user
-      @user = current_user
-    end
+  def set_current_user
+    @user = current_user
+  end
 
-    def user_params
-      params.require(:user).permit(:name, :email)
-    end
+  def user_params
+    params.require(:user).permit(:name, :email, :avatar)
+  end
 end

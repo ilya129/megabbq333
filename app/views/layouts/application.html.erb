@@ -6,14 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= content_for?(:title) ? yield(:title) : "Bbq" %></title>
   <%= csrf_meta_tags %>
-
   <%= stylesheet_link_tag "application", :media => "all" %>
-
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 </head>
 <body>
   <div class="navbar navbar-default navbar-static-top">
     <div class="container">
-      <%# Для вывода названия приложения используем хелпер I18n.t %>
       <%= link_to t('app.name'), root_path, class: 'navbar-brand' %>
 
       <div class="navbar-collapse collapse navbar-responsive-collapse">
@@ -42,7 +40,6 @@
     </div>
 
     <footer>
-      <%# Для вывода названия компании используем хелпер I18n.t %>
       <p>&copy; <%= t 'app.company' %> 2016</p>
     </footer>
   </div>
