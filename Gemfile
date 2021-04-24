@@ -24,7 +24,6 @@ gem 'carrierwave'
 gem 'rmagick'
 gem 'fog-aws'
 gem 'rails-i18n'
-gem 'bootsnap', '>= 1.4.4', require: false
 
 group :production do
   gem 'pg'
