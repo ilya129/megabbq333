@@ -24,6 +24,7 @@ gem 'carrierwave'
 gem 'rmagick'
 gem 'fog-aws'
 gem 'rails-i18n'
+gem 'bootstrap'
 
 group :production do
   gem 'pg'
