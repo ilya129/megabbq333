@@ -114,4 +114,6 @@ Rails.application.configure do
     :domain         => 'heroku.com',
     :enable_starttls_auto => true
 }
+
+  config.action_mailer.asset_host = 'megabbq333.herokuapp.com'
 end

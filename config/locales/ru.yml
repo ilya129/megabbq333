@@ -52,6 +52,10 @@ ru:
     name: 'Шашлыки'
     company: 'Хороший программист'
 
+  events:
+    show:
+      destroy_confirm: 'Вы уверены, что хотите удалить этот событие?'
+
   comments:
     comment:
       destroy_confirm: 'Вы уверены, что хотите удалить этот комментарий?'
@@ -59,6 +63,11 @@ ru:
   subscriptions:
     subscription:
       destroy_confirm: 'Вы уверены, что хотите удалить эту подписку?'
+
+  error:
+    one: '%{count} ошибка'
+    few: '%{count} ошибки'
+    many: '%{count} ошибок'
 
     event_mailer:
       comment:
@@ -75,3 +84,5 @@ ru:
         event: 'Событие'
         datetime: 'Состоится'
         owner: 'Организатор'
+
+

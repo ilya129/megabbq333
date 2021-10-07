@@ -8,6 +8,10 @@
   <%= csrf_meta_tags %>
   <%= stylesheet_link_tag "application", :media => "all" %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=c20f9952-ce83-4541-80ab-ee22f7198022" type="text/javascript"></script>
+  <script src="../app/javascript/packs/jquery-1.10.2.min.js"></script>
+  <script src="../app/javascript/packs/lightbox.min.js"></script>
+  <link href="../app/assets/stylesheets/lightbox.css" rel="stylesheet" />
 </head>
 <body>
   <div class="navbar navbar-default navbar-static-top">
@@ -43,5 +47,7 @@
       <p>&copy; <%= t 'app.company' %> 2016</p>
     </footer>
   </div>
+  <%= javascript_pack_tag 'maps' %>
 </body>
 </html>
+
