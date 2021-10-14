@@ -1,7 +1,11 @@
 <div class="event-photo buffer-both">
   <% image_title = "Добавил #{render partial: 'users/user', object: photo.user}" %>
+  <% image_delete = link_to(
+    fa_icon('trash'), event_photo_path(photo.event, photo),
+    method: :delete, data: {confirm: t('.destroy_confirm')}
+  ) %>
 
   <%= link_to image_tag(photo.photo.thumb.url), photo.photo.url, data: {
-	lightbox: 'roadtrip', title: image_title, gallery: "event-#{photo.event.id}"
+	lightbox: 'roadtrip', title: image_delete, gallery: "event-#{photo.event.id}"
   } %>
 </div>
