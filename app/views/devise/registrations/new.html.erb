@@ -1,9 +1,13 @@
+<h2>Регистрация</h2>
 <div class="row">
-  <div class="col-sm-7">
-    <h2>Sign up</h2>
-
+  <div class="col-md-6 buffer-top">
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="form-group">
+        <%= f.label :name %><br />
+        <%= f.email_field :name, class: "form-control", autofocus: true, autocomplete: "name" %>
+      </div>
 
       <div class="form-group">
         <%= f.label :email %><br />
@@ -13,7 +17,7 @@
       <div class="form-group">
         <%= f.label :password %>
         <% if @minimum_password_length %>
-        <em>(<%= @minimum_password_length %> characters minimum)</em>
+        <em>(минимум <%= @minimum_password_length %> символов)</em>
         <% end %><br />
         <%= f.password_field :password, class: "form-control", autocomplete: "new-password" %>
       </div>
@@ -24,10 +28,11 @@
       </div>
 
       <div class="actions">
-        <%= f.submit "Sign up", class: "btn btn-primary" %>
+        <%= f.submit "Регистрация", class: "btn btn-primary" %>
       </div>
     <% end %>
-
-    <%= render "devise/shared/links" %>
+    <div class="buffer-both">
+      <%= render "devise/shared/links" %>
+    </div>
   </div>
 </div>

@@ -20,13 +20,44 @@ class User < ApplicationRecord
   after_commit :link_subscriptions, on: :create
   mount_uploader :avatar, AvatarUploader
 
+  def link_subscriptions
+    Subscription.where(user_id: nil, user_email: self.email).update_all(user_id: self.id)
+  end
+
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
+  end
+
+  def self.find_for_facebook_oauth(access_token)
+    email = access_token.info.email
+    return nil if email.nil?
+
+    user = find_by(email: email)
+    return user if user.present?
+
+    id = access_token.extra.raw_info.id
+    url = "https://facebook.com/#{id}"
+    remote_avatar_url = "#{access_token.info.image}?type=large"
+
+    create_user_from_oauth(access_token: access_token, url: url, remote_avatar_url: remote_avatar_url)
+  end
+
+  def self.find_for_vkontakte_oauth(access_token)
+    email = access_token.info.email
+    return nil if email.nil?
+
+    user = find_by(email: email)
+    return user if user.present?
+
+    url = access_token.info.urls[:Vkontakte]
+    remote_avatar_url = access_token.extra.raw_info.photo_200
+
+    create_user_from_oauth(access_token: access_token, url: url, remote_avatar_url: remote_avatar_url)
+  end
+
   private
 
   def set_name
     self.name = "Товарисч №#{rand(777)}" if self.name.blank?
-  end
-
-  def link_subscriptions
-    Subscription.where(user_id: nil, user_email: self.email).update_all(user_id: self.id)
   end
 end

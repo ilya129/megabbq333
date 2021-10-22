@@ -19,6 +19,7 @@ ru:
         address: 'Место проведения'
         datetime: 'Дата и время'
         description: 'Описание'
+        pincode: 'Пинкод'
       comment:
         user_name: 'Ваше имя'
         body: 'Комментарий'
@@ -33,6 +34,7 @@ ru:
       created: 'Вы создали новое мероприятие'
       updated: 'Вы обновили мероприятие'
       destroyed: 'Вы удалили мероприятие :('
+      wrong_pincode: 'Неверный пинкод'
     users:
       updated: 'Вы обновили свой профиль'
     comments:
@@ -47,6 +49,28 @@ ru:
       error: 'Что-то не так с фоткой'
       created: 'Вы добавили фотографию к событию'
       destroyed: 'Вы удалили фотку'
+
+    event_mailer:
+      comment:
+        title: Новый комментарий
+        author: Автор
+        event: Событие
+        datetime: Состоится
+        owner: Организатор
+      subscription:
+        title: Новая подписка
+        name: Имя
+        email: Адрес электронной почты
+        author: Автор
+        event: Событие
+        datetime: Состоится
+        owner: Организатор
+      photo:
+        title: Новая фотография
+        author: Автор
+        event: Событие
+        datetime: Состоится
+        owner: Организатор
 
   app:
     name: 'Шашлыки'

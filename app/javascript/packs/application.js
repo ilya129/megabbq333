@@ -7,11 +7,11 @@ import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
-require("jquery")
-require("packs/jquery-1.11.0.min")
-require("packs/lightbox")
-require("packs/lightbox.min")
+require("packs/photos")
+require("packs/owl.carousel")
+require("packs/owl.carousel.min")
 
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+

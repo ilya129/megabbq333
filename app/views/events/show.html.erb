@@ -1,6 +1,6 @@
 <div class="event">
   <div class="event-info row">
-    <div class="col-md-8">
+    <div class="col-md-12">
       <%= content_tag 'div', '', class: 'event-background',
         style: "background-image: url(#{event_photo(@event)})" %>
 
@@ -20,11 +20,6 @@
             <div class="buffer-both">
               <%= link_to 'Изменить', edit_event_path(@event),
                 class: 'btn btn-primary' %>
-            </div>
-          <% end %>
-
-          <% if current_user_can_edit?(@event) %>
-            <div class="buffer-both">
               <%= link_to 'Удалить', @event, method: :delete, data: {confirm: t('.destroy_confirm')},
                  class: 'btn btn-danger' %>
             </div>
@@ -32,10 +27,8 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4">
-      <div id="map"
-         data-address="<%= @event.address %>"
-         style="width: 100%; height: 300px;">
+    <div class="col-md-6">
+      <div id="map"class="event-map" data-address="<%= @event.address %>">
       </div>
     </div>
   </div>
@@ -44,12 +37,17 @@
     <div class="col-md-8">
       <div class="event-photos">
         <div class="event-photos-gallery">
-          <%= render partial: 'photos/photo', collection: @event.photos.except(@new_photo) %>
+          <div class="owl-carousel">
+            <%= render partial: 'photos/photo', collection: @event.photos.except(@new_photo) %>
+          </div>
         </div>
 
-        <div class="event-photo-form">
-          <%= render partial: 'photos/form', locals: {photo: @new_photo || @event.photos.build} %>
-        </div>
+        <% if current_user %>
+
+          <div class="event-photo-form buffer-top">
+            <%= render partial: 'photos/form', locals: {photo: @new_photo || @event.photos.build} %>
+          </div>
+        <% end %>
       </div>
 
       <div class="event-comments buffer-top">
@@ -72,18 +70,34 @@
         <h4>Пойдут:</h4>
         <div>
           <p>
-          <%= render partial: 'subscriptions/subscription',
-            collection: @event.subscriptions.except(@new_subscription) %>
+          <% subsсribers = @event.subscriptions.except(@new_subscription) %>
+          <% if subsсribers.any? %>
+            <%= render partial: 'subscriptions/subscription', collection: subsсribers %>
+          <% else %>
+            Пока никто не записался
+          <% end %>
           </p>
         </div>
       </div>
-      <% if current_user != @event.user %>
+      <% unless current_user == @event.user %>
       <div class="event-subscription-form">
         <h4>Я пойду:</h4>
         <div>
-          <%= render partial: 'subscriptions/form', locals: {
-            subscription: @new_subscription || @event.subscriptions.build
-          } %>
+          <% unless current_user %>
+            <%= render partial: 'subscriptions/form', locals: {
+              subscription: @new_subscription || @event.subscriptions.build
+            } %>
+          <% else %>
+            <% if current_user.subscriptions.pluck(:event_id).include?(@event.id) %>
+              <% subscription = current_user.subscriptions.find_by(event_id: @event.id) %>
+              <%= link_to 'Отписаться', event_subscription_path(subscription.event, subscription), 
+                    method: :delete, data: { confirm: t('.destroy_confirm') }, class: 'btn btn-danger' %>
+            <% else %>
+             <%= render partial: 'subscriptions/form', locals: {
+               subscription: @new_subscription || @event.subscriptions.build
+             } %>
+             <% end %>
+           <% end %>
         </div>
       </div>
       <% end %>
