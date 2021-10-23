@@ -37,7 +37,7 @@
     <div class="col-md-8">
       <div class="event-photos">
         <div class="event-photos-gallery">
-          <div class="owl-carousel">
+          <div class="owl-carousel <%= {data: {count: @event.photos.except(@new_photo).count}} %>">
             <%= render partial: 'photos/photo', collection: @event.photos.except(@new_photo) %>
           </div>
         </div>

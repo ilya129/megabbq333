@@ -50,28 +50,6 @@ ru:
       created: 'Вы добавили фотографию к событию'
       destroyed: 'Вы удалили фотку'
 
-    event_mailer:
-      comment:
-        title: Новый комментарий
-        author: Автор
-        event: Событие
-        datetime: Состоится
-        owner: Организатор
-      subscription:
-        title: Новая подписка
-        name: Имя
-        email: Адрес электронной почты
-        author: Автор
-        event: Событие
-        datetime: Состоится
-        owner: Организатор
-      photo:
-        title: Новая фотография
-        author: Автор
-        event: Событие
-        datetime: Состоится
-        owner: Организатор
-
   app:
     name: 'Шашлыки'
     company: 'Хороший программист'
