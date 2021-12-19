@@ -4,14 +4,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :events, dependent: :destroy
+  has_many :events
   has_many :comments, dependent: :destroy
   has_many :subscriptions, dependent: :destroy
 
-  has_many :events
-
   validates :name, presence: true, length: {maximum: 35}
-
   validates :email, length: {maximum: 255}
   validates :email, uniqueness: true
   validates :email, format: /\A[a-zA-Z0-9\-_.]+@[a-zA-Z0-9\-_.]+\z/
@@ -56,6 +53,17 @@ class User < ApplicationRecord
   end
 
   private
+
+  def self.create_user_from_oauth(access_token:, url:, remote_avatar_url:)
+    provider = access_token.provider
+
+    where(url: url, provider: provider).first_or_create! do |user|
+      user.name = access_token.info.name
+      user.email =  access_token.info.email
+      user.password = Devise.friendly_token.first(16)
+      user.remote_avatar_url = remote_avatar_url
+    end
+  end
 
   def set_name
     self.name = "Товарисч №#{rand(777)}" if self.name.blank?

@@ -4,26 +4,34 @@ class PhotosController < ApplicationController
 
   def create
     @new_photo = @event.photos.build(photo_params)
-
     @new_photo.user = current_user
 
+    if attempt_to_access_to_private_event?(@event)
+      flash[:alert] = I18n.t('pundit.not_authorized')
+      return redirect_to @event
+    end
+
     if @new_photo.save
-      redirect_to @event, notice: I18n.t('controllers.photos.created')
+      notify_subscribers(@event, @new_photo)
+      flash[:notice] = I18n.t('controllers.photos.created')
+      redirect_to @event
     else
-      render 'events/show', alert: I18n.t('controllers.photos.error')
+      flash.now[:alert] = I18n.t('controllers.photos.error')
+      render 'events/show'
     end
   end
 
   def destroy
-    message = {notice: I18n.t('controllers.photos.destroyed')}
+    type, message = :notice, I18n.t('controllers.photos.destroyed')
 
     if current_user_can_edit?(@photo)
       @photo.destroy
     else
-      message = {alert: I18n.t('controllers.photos.error')}
+      type, message = :alert, I18n.t('controllers.photos.error')
     end
 
-    redirect_to @event, message
+    flash[type] = message
+    redirect_to @event
   end
 
   private
