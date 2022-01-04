@@ -78,7 +78,7 @@
           </p>
         </div>
       </div>
-      <% unless current_user == @event.user %>
+      <% if current_user != @event.user %>
       <div class="event-subscription-form">
         <h4>Я пойду:</h4>
         <div>
@@ -88,15 +88,13 @@
             } %>
           <% else %>
             <% if current_user.subscriptions.pluck(:event_id).include?(@event.id) %>
-              <% subscription = current_user.subscriptions.find_by(event_id: @event.id) %>
-              <%= link_to 'Отписаться', event_subscription_path(subscription.event, subscription), 
-                    method: :delete, data: { confirm: t('.destroy_confirm') }, class: 'btn btn-danger' %>
+              Вы уже подписаны на это событие
             <% else %>
              <%= render partial: 'subscriptions/form', locals: {
                subscription: @new_subscription || @event.subscriptions.build
              } %>
              <% end %>
-           <% end %>
+          <% end %>
         </div>
       </div>
       <% end %>

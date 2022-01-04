@@ -7,13 +7,13 @@ import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
+import '@fortawesome/fontawesome-free/css/all'
 import 'bootstrap/dist/js/bootstrap'
 import 'ekko-lightbox/dist/ekko-lightbox.js'
 import 'ekko-lightbox/dist/ekko-lightbox.min.js'
-import '@fortawesome/fontawesome-free/css/all'
-require("packs/bootstrap")
 require("packs/photos")
 require("packs/maps")
+require("packs/bootstrap")
 require("packs/owl.carousel")
 require("packs/owl.carousel.min")
 

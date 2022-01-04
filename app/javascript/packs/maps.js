@@ -1,5 +1,7 @@
-jQuery(function() {
-  ymaps.ready(init);
+$(document).on('turbolinks:load', function() {
+  if (document.getElementById('map') != null) {
+    ymaps.ready(init);
+  };
   var myMap;
 
   function init(){
@@ -32,4 +34,3 @@ jQuery(function() {
     );
   }
 });
-

@@ -7,31 +7,27 @@ class CommentsController < ApplicationController
     @new_comment.user = current_user
 
     if attempt_to_access_to_private_event?(@event)
-      flash[:alert] = I18n.t('pundit.not_authorized')
-      return redirect_to @event
+      return redirect_to @event, alert: I18n.t('pundit.not_authorized')
     end
 
     if @new_comment.save
       notify_subscribers(@event, @new_comment)
-      flash[:notice] = I18n.t('controllers.comments.created')
-      redirect_to @event
+      redirect_to @event, notice: I18n.t('controllers.comments.created')
     else
-      flash.now[:alert] = I18n.t('controllers.comments.error')
-      render 'events/show'
+      render 'events/show', alert: I18n.t('controllers.comments.error')
     end
   end
 
   def destroy
-    type, message = :notice, I18n.t('controllers.comments.destroyed')
+    message = { notice: I18n.t('controllers.comments.destroyed') }
 
     if current_user_can_edit?(@comment)
       @comment.destroy!
     else
-      type, message = :alert, I18n.t('controllers.comments.error')
+      message = { alert: I18n.t('controllers.comments.error') }
     end
 
-    flash[type] = message
-    redirect_to @event
+    redirect_to @event, message 
   end
 
   private
@@ -52,7 +48,7 @@ class CommentsController < ApplicationController
     all_emails = (event.subscriptions.map(&:user_email) + [event.user.email]).uniq
     all_emails -= [current_user.email] if current_user
     all_emails.each do |mail|
-      EventMailer.comment(event, comment, mail).deliver_now
+      EventMailer.comment(event, comment, mail).deliver_later
     end
   end
 end

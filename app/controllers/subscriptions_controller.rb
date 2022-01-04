@@ -7,34 +7,29 @@ class SubscriptionsController < ApplicationController
     @new_subscription.user = current_user
 
     if attempt_to_access_to_private_event?(@event)
-      flash[:alert] = I18n.t('pundit.not_authorized')
-      return redirect_to @event
+      return redirect_to @event, alert: I18n.t('pundit.not_authorized')
     end
 
     if current_user == @event.user
-      flash.now[:alert] = I18n.t('controllers.subscriptions.owner_subscribed_error')
-      render 'events/show'
+      render 'events/show', alert: I18n.t('controllers.subscriptions.owner_subscribed_error')
     elsif @new_subscription.save
-      EventMailer.subscription(@event, @new_subscription).deliver_now
-      flash[:notice] = I18n.t('controllers.subscriptions.created')
-      redirect_to @event
+      EventMailer.subscription(@event, @new_subscription).deliver_later
+      redirect_to @event, notice: I18n.t('controllers.subscriptions.created')
     else
-      flash.now[:alert] = I18n.t('controllers.subscriptions.error')
-      render 'events/show'
+      render 'events/show', alert: I18n.t('controllers.subscriptions.error')
     end
   end
 
   def destroy
-    type, message = :notice, I18n.t('controllers.subscriptions.destroyed')
+    message = { notice: I18n.t('controllers.subscriptions.destroyed') }
 
     if current_user_can_edit?(@subscription)
       @subscription.destroy
     else
-      type, message = :alert, I18n.t('controllers.subscriptions.error')
+      message = { alert: I18n.t('controllers.subscriptions.error') }
     end
 
-    flash[type] = message
-    redirect_to @event
+    redirect_to @event, message
   end
 
   private

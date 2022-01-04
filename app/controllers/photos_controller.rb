@@ -7,31 +7,27 @@ class PhotosController < ApplicationController
     @new_photo.user = current_user
 
     if attempt_to_access_to_private_event?(@event)
-      flash[:alert] = I18n.t('pundit.not_authorized')
-      return redirect_to @event
+      return redirect_to @event, alert: I18n.t('pundit.not_authorized')
     end
 
     if @new_photo.save
       notify_subscribers(@event, @new_photo)
-      flash[:notice] = I18n.t('controllers.photos.created')
-      redirect_to @event
+      redirect_to @event, notice: I18n.t('controllers.photos.created')
     else
-      flash.now[:alert] = I18n.t('controllers.photos.error')
-      render 'events/show'
+      render 'events/show', alert: I18n.t('controllers.photos.error')
     end
   end
 
   def destroy
-    type, message = :notice, I18n.t('controllers.photos.destroyed')
+    message = { notice: I18n.t('controllers.photos.destroyed') }
 
     if current_user_can_edit?(@photo)
       @photo.destroy
     else
-      type, message = :alert, I18n.t('controllers.photos.error')
+      message = { alert: I18n.t('controllers.photos.error') }
     end
 
-    flash[type] = message
-    redirect_to @event
+    redirect_to @event, message
   end
 
   private
@@ -52,7 +48,7 @@ class PhotosController < ApplicationController
     all_emails = (event.subscriptions.map(&:user_email) + [event.user.email] - [photo.user.email]).uniq
 
     all_emails.each do |mail|
-      EventMailer.photo(event, photo, mail).deliver_now
+      EventMailer.photo(event, photo, mail).deliver_later
     end
   end
 end

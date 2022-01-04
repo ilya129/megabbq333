@@ -21,8 +21,6 @@ class ApplicationController < ActionController::Base
     UserContext.new(current_user, cookies)
   end
 
-  protected
-
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:account_update, keys: [:email, :password,
                                                               :password_confirmation,
