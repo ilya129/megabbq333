@@ -1,8 +1,7 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: [:facebook, :vkontakte]
 
   has_many :events
   has_many :comments, dependent: :destroy
@@ -41,6 +40,7 @@ class User < ApplicationRecord
 
   def self.find_for_vkontakte_oauth(access_token)
     email = access_token.info.email
+    puts email
     return nil if email.nil?
 
     user = find_by(email: email)

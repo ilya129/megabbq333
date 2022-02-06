@@ -8,4 +8,12 @@ module UsersHelper
     return user.avatar.thumb.url if user.avatar.file.present?
     asset_url('user.png')
   end
+
+  def facebook_icon
+    asset_url('facebook-icon.png')
+  end
+
+  def vkontakte_icon
+    asset_url('VK-icon.png')
+  end
 end

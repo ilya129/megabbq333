@@ -87,4 +87,5 @@ Rails.application.configure do
   }
 
   config.action_mailer.asset_host = 'localhost:3000'
+  config.hosts << "lvh.me"
 end
