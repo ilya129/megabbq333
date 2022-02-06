@@ -40,7 +40,6 @@ class User < ApplicationRecord
 
   def self.find_for_vkontakte_oauth(access_token)
     email = access_token.info.email
-    puts email
     return nil if email.nil?
 
     user = find_by(email: email)
