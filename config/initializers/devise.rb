@@ -278,7 +278,13 @@ Devise.setup do |config|
   OmniAuth.config.allowed_request_methods = [:get]
 
   config.omniauth :vkontakte, Rails.application.secrets.omniauth_vkontakte_id,
-    Rails.application.secrets.omniauth_vkontakte_secret
+    Rails.application.secrets.omniauth_vkontakte_secret,
+    {
+      scope: 'email',
+      lang: 'ru',
+      https: 1,
+      redirect_uri: 'https://megabbq333.herokuapp.com/users/auth/vkontakte/callback'
+    }
 
   OmniAuth.config.silence_get_warning = true
   # ==> Warden configuration
