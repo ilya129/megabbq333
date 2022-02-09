@@ -36,7 +36,6 @@ module Bbq
     config.i18n.default_locale = :ru
     config.i18n.locale = :ru
     config.i18n.fallbacks = [:en]
-    config.force_ssl = true
 
     config.time_zone = 'Moscow'
   end

@@ -34,8 +34,16 @@ class User < ApplicationRecord
     id = access_token.extra.raw_info.id
     url = "https://facebook.com/#{id}"
     remote_avatar_url = "#{access_token.info.image}?type=large"
+    provider = access_token.provider
+    name = access_token.extra.raw_info.name
 
-    create_user_from_oauth(access_token: access_token, url: url, remote_avatar_url: remote_avatar_url)
+    #create_user_from_oauth(access_token: access_token, url: url, remote_avatar_url: remote_avatar_url)
+    where(url: url, provider: provider).first_or_create! do |user|
+      user.name = name
+      user.email = email.nil? ? nil : email
+      user.password = Devise.friendly_token.first(16)
+      user.remote_avatar_url = remote_avatar_url
+    end
   end
 
   def self.find_for_vkontakte_oauth(access_token)
