@@ -35,7 +35,7 @@ class User < ApplicationRecord
     url = "https://facebook.com/#{id}"
     remote_avatar_url = "https://graph.facebook.com/#{id}/picture?type=large"
 
-    create_user_from_oauth(access_token: access_token, url: url, remote_avatar_url: remote_avatar_ur)
+    create_user_from_oauth(access_token: access_token, url: url, remote_avatar_url: remote_avatar_url)
   end
 
   def self.find_for_vkontakte_oauth(access_token)
@@ -48,7 +48,7 @@ class User < ApplicationRecord
     url = access_token.info.urls[:Vkontakte]
     remote_avatar_url = access_token.extra.raw_info.photo_200
 
-    create_user_from_oauth(access_token: access_token, url: url, remote_avatar_url: remote_avatar_ur)
+    create_user_from_oauth(access_token: access_token, url: url, remote_avatar_url: remote_avatar_url)
   end
 
   private
