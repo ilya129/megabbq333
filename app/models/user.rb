@@ -33,7 +33,7 @@ class User < ApplicationRecord
 
     id = access_token.extra.raw_info.id
     url = "https://facebook.com/#{id}"
-    remote_avatar_url = "#{access_token.info.image}?#{access_token}=#{access_token}type=large"
+    remote_avatar_url = "#{access_token.info.image}?access_token=#{access_token}"
 
     create_user_from_oauth(access_token: access_token, url: url, remote_avatar_url: remote_avatar_ur)
   end
